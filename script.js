@@ -70,19 +70,19 @@ function GameController() {
         console.log(`${activePlayer.name}'s turn!`);
     }
 
+    function isX(currentValue) {
+        return currentValue === 'x';
+    }
+
+    function isO(currentValue) {
+        return currentValue === 'o';
+    }
+
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
         console.log(`Placing '${activePlayer.marker}' onto [${row}, ${column}]`);
 
         const boardArray = board.getBoard();
-
-        function isX(currentValue) {
-            return currentValue === 'x';
-        }
-
-        function isO(currentValue) {
-            return currentValue === 'o';
-        }
 
         for (let i = 0; i < boardArray.length; i++) {
             if (boardArray[i].every(isX) || boardArray[i].every(isO)) {
@@ -98,6 +98,18 @@ function GameController() {
             if (tempArr.every(isX) || tempArr.every(isO)) {
                 console.log(`${activePlayer.name} wins!`);
             }
+        }
+
+        const tempArr = [];
+        tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
+        if (tempArr.every(isX) || tempArr.every(isO)) {
+            console.log(`${activePlayer.name} wins!`);
+        }
+
+        const tempArr2 = [];
+        tempArr2.push(boardArray[2][0], boardArray[1][1], boardArray[0][2]);
+        if (tempArr2.every(isX) || tempArr2.every(isO)) {
+            console.log(`${activePlayer.name} wins!`);
         }
 
         switchTurn();
