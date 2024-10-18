@@ -90,6 +90,16 @@ function GameController() {
             } 
         }
 
+        for (let i = 0; i < boardArray.length; i++) {
+            const tempArr = [];
+            for (let j = 0; j < boardArray.length; j++) {
+                tempArr.push(boardArray[j][i]);
+            }
+            if (tempArr.every(isX) || tempArr.every(isO)) {
+                console.log(`${activePlayer.name} wins!`);
+            }
+        }
+
         switchTurn();
         printNewRound();
     }
