@@ -3,10 +3,12 @@ function GameBoard() {
     const column = 3;
     const board = [];
 
-    for (let i = 0; i < row; i++) {
-        board[i] = [];
-        for (let j = 0; j < column; j++) {
-            board[i][j] = null;
+    function resetBoard() {
+        for (let i = 0; i < row; i++) {
+            board[i] = [];
+            for (let j = 0; j < column; j++) {
+                board[i][j] = null;
+            }
         }
     }
 
@@ -31,7 +33,9 @@ function GameBoard() {
         }
     }
 
-    return {getBoard, printBoard, placeMarker};
+    resetBoard();
+
+    return {resetBoard, getBoard, printBoard, placeMarker};
 }
 
 function Player(
@@ -73,6 +77,20 @@ function GameController() {
         return currentValue === activePlayer.marker;
     }
 
+    function setWinner() {
+        console.log(`${activePlayer.name} wins!`);
+        activePlayer.points += 1;
+    }
+
+    function displayPoints() {
+        console.log(
+            {
+                playerOnePoints: players.playersArray[0].points, 
+                playerTwoPoints: players.playersArray[1].points
+            }
+        );
+    }
+
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
         console.log(`Placing '${activePlayer.marker}' onto [${row}, ${column}]`);
@@ -81,7 +99,9 @@ function GameController() {
 
         for (let i = 0; i < boardArray.length; i++) {
             if (boardArray[i].every(isActivePlayerMarker)) {
-                console.log(`${activePlayer.name} wins!`);
+                setWinner();
+                displayPoints();
+                board.resetBoard();
             } 
         }
 
@@ -91,20 +111,26 @@ function GameController() {
                 tempArr.push(boardArray[j][i]);
             }
             if (tempArr.every(isActivePlayerMarker)) {
-                console.log(`${activePlayer.name} wins!`);
+                setWinner();
+                displayPoints();
+                board.resetBoard();
             }
         }
 
         const tempArr = [];
         tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
         if (tempArr.every(isActivePlayerMarker)) {
-            console.log(`${activePlayer.name} wins!`);
+            setWinner();
+            displayPoints();
+            board.resetBoard();
         }
 
         const tempArr2 = [];
         tempArr2.push(boardArray[2][0], boardArray[1][1], boardArray[0][2]);
         if (tempArr2.every(isActivePlayerMarker)) {
-            console.log(`${activePlayer.name} wins!`);
+            setWinner();
+            displayPoints();
+            board.resetBoard();
         }
 
         switchTurn();
