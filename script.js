@@ -9,6 +9,10 @@ function GameBoard() {
             board[i][j] = null;
         }
     }
+
+    function getBoard() {
+        return board;
+    }
     
     function printBoard() {
         console.log(board);
@@ -27,7 +31,7 @@ function GameBoard() {
         }
     }
 
-    return {printBoard, placeMarker};
+    return {getBoard, printBoard, placeMarker};
 }
 
 function Player(
@@ -37,11 +41,13 @@ function Player(
     const playersArray = [
         {
             name: playerOneName,
-            marker: 'x'
+            marker: 'x',
+            points: 0
         },
         {
             name: playerTwoName,
-            marker: 'o'
+            marker: 'o',
+            points: 0
         }
     ];
 
@@ -51,7 +57,7 @@ function Player(
 function GameController() {
     const board = GameBoard();
     const players = Player();
-    
+
     let activePlayer = players.playersArray[0];
 
     function switchTurn() {
@@ -67,6 +73,22 @@ function GameController() {
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
         console.log(`Placing '${activePlayer.marker}' onto [${row}, ${column}]`);
+
+        const boardArray = board.getBoard();
+
+        function isX(currentValue) {
+            return currentValue === 'x';
+        }
+
+        function isO(currentValue) {
+            return currentValue === 'o';
+        }
+
+        for (let i = 0; i < boardArray.length; i++) {
+            if (boardArray[i].every(isX) || boardArray[i].every(isO)) {
+                console.log(`${activePlayer.name} wins!`);
+            } 
+        }
 
         switchTurn();
         printNewRound();
