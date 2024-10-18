@@ -38,32 +38,34 @@ function Player(
     playerOneName = 'player1',
     playerTwoName = 'player2'
     ) {
-    const playersArray = [
-        {
-            name: playerOneName,
-            marker: 'x',
-            points: 0
-        },
-        {
-            name: playerTwoName,
-            marker: 'o',
-            points: 0
-        }
-    ];
+    const playerOne = {
+        name: playerOneName,
+        marker: 'x',
+        points: 0
+    };
 
-    return {playersArray};
+    const playerTwo = {
+        name: playerTwoName,
+        marker: 'o',
+        points: 0
+    };
+
+    return {playerOne, playerTwo};
 }
 
 function GameController() {
     const board = GameBoard();
     const players = Player();
-    let activePlayer = players.playersArray[0];
+    const playerOne = players.playerOne;
+    const playerTwo = players.playerTwo;
+
+    let activePlayer = playerOne;
     let ties = 0;
     let roundNumber = 0;
 
     function switchTurn() {
-        activePlayer = (activePlayer === players.playersArray[0]) ?
-            players.playersArray[1] : players.playersArray[0];
+        activePlayer = (activePlayer === playerOne) ?
+            playerTwo : playerOne;
     }
 
     function printNewRound() {
@@ -81,7 +83,7 @@ function GameController() {
     }
 
     function setTie() {
-        ties++;
+        ties += 1;
         console.log('Tie game!');
         displayPoints();
         board.resetBoard();
@@ -95,8 +97,8 @@ function GameController() {
     function displayPoints() {
         console.log(
             {
-                playerOnePoints: players.playersArray[0].points, 
-                playerTwoPoints: players.playersArray[1].points,
+                [playerOne.name]: playerOne.points, 
+                [playerTwo.name]: playerTwo.points,
                 ties: ties
             }
         );
@@ -149,7 +151,6 @@ function GameController() {
         }
 
         roundNumber += 1;
-
         if (roundNumber > 9) {
             setTie();
         }
