@@ -57,7 +57,6 @@ function Player(
 function GameController() {
     const board = GameBoard();
     const players = Player();
-
     let activePlayer = players.playersArray[0];
 
     function switchTurn() {
@@ -70,12 +69,8 @@ function GameController() {
         console.log(`${activePlayer.name}'s turn!`);
     }
 
-    function isX(currentValue) {
-        return currentValue === 'x';
-    }
-
-    function isO(currentValue) {
-        return currentValue === 'o';
+    function isActivePlayerMarker(currentValue) {
+        return currentValue === activePlayer.marker;
     }
 
     function playRound(row, column) {
@@ -85,7 +80,7 @@ function GameController() {
         const boardArray = board.getBoard();
 
         for (let i = 0; i < boardArray.length; i++) {
-            if (boardArray[i].every(isX) || boardArray[i].every(isO)) {
+            if (boardArray[i].every(isActivePlayerMarker)) {
                 console.log(`${activePlayer.name} wins!`);
             } 
         }
@@ -95,20 +90,20 @@ function GameController() {
             for (let j = 0; j < boardArray.length; j++) {
                 tempArr.push(boardArray[j][i]);
             }
-            if (tempArr.every(isX) || tempArr.every(isO)) {
+            if (tempArr.every(isActivePlayerMarker)) {
                 console.log(`${activePlayer.name} wins!`);
             }
         }
 
         const tempArr = [];
         tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
-        if (tempArr.every(isX) || tempArr.every(isO)) {
+        if (tempArr.every(isActivePlayerMarker)) {
             console.log(`${activePlayer.name} wins!`);
         }
 
         const tempArr2 = [];
         tempArr2.push(boardArray[2][0], boardArray[1][1], boardArray[0][2]);
-        if (tempArr2.every(isX) || tempArr2.every(isO)) {
+        if (tempArr2.every(isActivePlayerMarker)) {
             console.log(`${activePlayer.name} wins!`);
         }
 
