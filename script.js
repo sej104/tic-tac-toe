@@ -62,6 +62,8 @@ function GameController() {
     const board = GameBoard();
     const players = Player();
     let activePlayer = players.playersArray[0];
+    let ties = 0;
+    let roundNumber = 0;
 
     function switchTurn() {
         activePlayer = (activePlayer === players.playersArray[0]) ?
@@ -82,11 +84,24 @@ function GameController() {
         activePlayer.points += 1;
     }
 
+    function setTie() {
+        ties++;
+        console.log('Tie game!');
+        displayPoints();
+        board.resetBoard();
+        resetRoundNumber();
+    }
+
+    function resetRoundNumber() {
+        roundNumber = 0;
+    }
+
     function displayPoints() {
         console.log(
             {
                 playerOnePoints: players.playersArray[0].points, 
-                playerTwoPoints: players.playersArray[1].points
+                playerTwoPoints: players.playersArray[1].points,
+                ties: ties
             }
         );
     }
@@ -102,6 +117,7 @@ function GameController() {
                 setWinner();
                 displayPoints();
                 board.resetBoard();
+                resetRoundNumber();
             } 
         }
 
@@ -114,6 +130,7 @@ function GameController() {
                 setWinner();
                 displayPoints();
                 board.resetBoard();
+                resetRoundNumber();
             }
         }
 
@@ -123,6 +140,7 @@ function GameController() {
             setWinner();
             displayPoints();
             board.resetBoard();
+            resetRoundNumber();
         }
 
         const tempArr2 = [];
@@ -131,6 +149,13 @@ function GameController() {
             setWinner();
             displayPoints();
             board.resetBoard();
+            resetRoundNumber();
+        }
+
+        roundNumber += 1;
+
+        if (roundNumber > 9) {
+            setTie();
         }
 
         switchTurn();
