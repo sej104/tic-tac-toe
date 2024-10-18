@@ -29,3 +29,21 @@ function GameBoard() {
 
     return {printBoard, placeMarker};
 }
+
+function Player(
+    playerOneName = 'player1',
+    playerTwoName = 'player2'
+) {
+    const playersArray = [
+        {
+            name: playerOneName,
+            marker: 'x'
+        },
+        {
+            name: playerTwoName,
+            marker: 'o'
+        }
+    ];
+
+    return {playersArray};
+}
