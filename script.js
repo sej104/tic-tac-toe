@@ -80,11 +80,16 @@ function GameController() {
     function setWinner() {
         console.log(`${activePlayer.name} wins!`);
         activePlayer.points += 1;
+        resetGame();
     }
 
     function setTie() {
-        ties += 1;
         console.log('Tie game!');
+        ties += 1;
+        resetGame();
+    }
+
+    function resetGame() {
         displayPoints();
         board.resetBoard();
         resetRoundNumber();
@@ -106,16 +111,13 @@ function GameController() {
 
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
-        console.log(`Placing '${activePlayer.marker}' onto [${row}, ${column}]`);
+        console.log(`Placing '${activePlayer.marker}' onto [${row}][${column}]`);
 
         const boardArray = board.getBoard();
 
         for (let i = 0; i < boardArray.length; i++) {
             if (boardArray[i].every(isActivePlayerMarker)) {
                 setWinner();
-                displayPoints();
-                board.resetBoard();
-                resetRoundNumber();
             } 
         }
 
@@ -126,9 +128,6 @@ function GameController() {
             }
             if (tempArr.every(isActivePlayerMarker)) {
                 setWinner();
-                displayPoints();
-                board.resetBoard();
-                resetRoundNumber();
             }
         }
 
@@ -136,18 +135,12 @@ function GameController() {
         tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
         if (tempArr.every(isActivePlayerMarker)) {
             setWinner();
-            displayPoints();
-            board.resetBoard();
-            resetRoundNumber();
         }
 
         const tempArr2 = [];
         tempArr2.push(boardArray[2][0], boardArray[1][1], boardArray[0][2]);
         if (tempArr2.every(isActivePlayerMarker)) {
             setWinner();
-            displayPoints();
-            board.resetBoard();
-            resetRoundNumber();
         }
 
         roundNumber += 1;
