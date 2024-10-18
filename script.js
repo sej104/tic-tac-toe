@@ -15,10 +15,6 @@ function GameBoard() {
     function getBoard() {
         return board;
     }
-    
-    function printBoard() {
-        console.log(board);
-    }
 
     function placeMarker(row, column, player) {
         if (
@@ -35,7 +31,7 @@ function GameBoard() {
 
     resetBoard();
 
-    return {resetBoard, getBoard, printBoard, placeMarker};
+    return {resetBoard, getBoard, placeMarker};
 }
 
 function Player(
@@ -71,7 +67,7 @@ function GameController() {
     }
 
     function printNewRound() {
-        board.printBoard();
+        console.log(board.getBoard());
         console.log(`${activePlayer.name}'s turn!`);
     }
 
