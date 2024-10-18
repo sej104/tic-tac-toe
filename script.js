@@ -73,8 +73,24 @@ function GameController() {
         console.log(`${activePlayer.name}'s turn!`);
     }
 
-    function isActivePlayerMarker(currentValue) {
-        return currentValue === activePlayer.marker;
+    function displayPoints() {
+        console.log(
+            {
+                [playerOne.name]: playerOne.points, 
+                [playerTwo.name]: playerTwo.points,
+                ties: ties
+            }
+        );
+    }
+
+    function resetRoundNumber() {
+        roundNumber = 0;
+    }
+
+    function resetGame() {
+        displayPoints();
+        board.resetBoard();
+        resetRoundNumber();
     }
 
     function setWinner() {
@@ -89,24 +105,8 @@ function GameController() {
         resetGame();
     }
 
-    function resetGame() {
-        displayPoints();
-        board.resetBoard();
-        resetRoundNumber();
-    }
-
-    function resetRoundNumber() {
-        roundNumber = 0;
-    }
-
-    function displayPoints() {
-        console.log(
-            {
-                [playerOne.name]: playerOne.points, 
-                [playerTwo.name]: playerTwo.points,
-                ties: ties
-            }
-        );
+    function isActivePlayerMarker(currentValue) {
+        return currentValue === activePlayer.marker;
     }
 
     function playRound(row, column) {
