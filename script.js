@@ -33,7 +33,7 @@ function GameBoard() {
 function Player(
     playerOneName = 'player1',
     playerTwoName = 'player2'
-) {
+    ) {
     const playersArray = [
         {
             name: playerOneName,
@@ -47,3 +47,34 @@ function Player(
 
     return {playersArray};
 }
+
+function GameController() {
+    const board = GameBoard();
+    const players = Player();
+    
+    let activePlayer = players.playersArray[0];
+
+    function switchTurn() {
+        activePlayer = (activePlayer === players.playersArray[0]) ?
+            players.playersArray[1] : players.playersArray[0];
+    }
+
+    function printNewRound() {
+        board.printBoard();
+        console.log(`${activePlayer.name}'s turn!`);
+    }
+
+    function playRound(row, column) {
+        board.placeMarker(row, column, activePlayer.marker);
+        console.log(`Placing '${activePlayer.marker}' onto [${row}, ${column}]`);
+
+        switchTurn();
+        printNewRound();
+    }
+
+    printNewRound();
+
+    return {playRound};
+}
+
+const game = GameController();
