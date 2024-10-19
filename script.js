@@ -143,9 +143,40 @@ function GameController() {
         printNewRound();
     }
 
+    function getActivePlayer() {
+        return activePlayer;
+    }
+
     printNewRound();
 
-    return {playRound};
+    return {playRound, getBoard: board.getBoard, getActivePlayer};
 }
 
-const game = GameController();
+function ScreenController() {
+    const game = GameController();
+    const boardDiv = document.querySelector('.board');
+    const turnDiv = document.querySelector('.turn');
+
+    function updateScreen() {
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer().name;
+
+        boardDiv.textContent = "";
+        turnDiv.textContent = `${activePlayer}'s turn...`;
+
+        for (let row = 0; row < board.length; row++) {
+            for (let col = 0; col < board.length; col++) {
+                const cellButton = document.createElement('button');
+                cellButton.textContent = board[row][col];
+                cellButton.classList.add('cell');
+                cellButton.dataset.row = row;
+                cellButton.dataset.column = col;
+                boardDiv.appendChild(cellButton);
+            }
+        }
+    }
+
+    updateScreen();
+}
+
+ScreenController();
