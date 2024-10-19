@@ -120,13 +120,13 @@ function GameController() {
             if (allEqual(boardArray[i])) {
                 setWinner();
                 break;
-            } 
-            const tempArr = [];
-            for (let j = 0; j < boardArray.length; j++) {
-                tempArr.push(boardArray[j][i]);
-            }
-            if (allEqual(tempArr)) {
+            } else if (
+                boardArray[0][i] === activePlayer.marker &&
+                boardArray[1][i] === activePlayer.marker &&
+                boardArray[2][i] === activePlayer.marker
+            ) {
                 setWinner();
+                break;
             }
         }
 
