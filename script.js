@@ -66,7 +66,7 @@ function GameController() {
 
     let activePlayer = playerOne;
     let ties = 0;
-    let roundNumber = 0;
+    let roundNumber = 1;
 
     function switchTurn() {
         activePlayer = (activePlayer === playerOne) ?
@@ -92,7 +92,7 @@ function GameController() {
         displayPoints();
         console.log("Restarting game...");
         board.resetBoard();
-        roundNumber = 0;
+        roundNumber = 1;
     }
 
     function setWinner() {
@@ -175,6 +175,17 @@ function ScreenController() {
             }
         }
     }
+
+    boardDiv.addEventListener('click', (event) => {
+        const selectedRow = event.target.dataset.row;
+        const selectedColumn = event.target.dataset.column;
+        const currentValue = event.target.textContent;
+        
+        if (!selectedRow || !selectedColumn || currentValue) return;
+
+        game.playRound(selectedRow, selectedColumn);
+        updateScreen();
+    });
 
     updateScreen();
 }
