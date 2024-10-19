@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.board {
+    display: grid;
+    height: 500px;
+    width: 500px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    border: 1px solid black;
+}
+
+.cell {
+    appearance: none;
+    background-color: transparent;
+    font-size: 4rem;
+    padding: 0;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
