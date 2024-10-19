@@ -107,12 +107,12 @@ function GameController() {
         resetGame();
     }
 
-    function isActivePlayerMarker(currentValue) {
-        return currentValue === activePlayer.marker;
-    }
-
-    function allEqual(arr) {
-        return arr.every(isActivePlayerMarker);
+    function checkWinner(item1, item2, item3) {
+        if (
+            item1 === activePlayer.marker &&
+            item2 === activePlayer.marker &&
+            item3 === activePlayer.marker
+        ) return true;
     }
 
     function playRound(row, column) {
@@ -122,31 +122,16 @@ function GameController() {
         const boardArray = board.getBoard();
 
         for (let i = 0; i < boardArray.length; i++) {
-            if (allEqual(boardArray[i])) {
-                board.printBoard();
-                setWinner();
-                break;
-            } else if (
-                boardArray[0][i] === activePlayer.marker &&
-                boardArray[1][i] === activePlayer.marker &&
-                boardArray[2][i] === activePlayer.marker
+            if (
+                checkWinner(boardArray[i][0], boardArray[i][1], boardArray[i][2]) ||
+                checkWinner(boardArray[0][i], boardArray[1][i], boardArray[2][i]) ||
+                checkWinner(boardArray[0][0], boardArray[1][1], boardArray[2][2]) ||
+                checkWinner(boardArray[0][2], boardArray[1][1], boardArray[2][0])
             ) {
                 board.printBoard();
                 setWinner();
                 break;
             }
-        }
-
-        const tempArr = [];
-        tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
-        if (allEqual(tempArr)) {
-            setWinner();
-        }
-
-        const tempArr2 = [];
-        tempArr2.push(boardArray[2][0], boardArray[1][1], boardArray[0][2]);
-        if (tempArr2.every(isActivePlayerMarker)) {
-            setWinner();
         }
 
         roundNumber += 1;
