@@ -83,14 +83,11 @@ function GameController() {
         );
     }
 
-    function resetRoundNumber() {
-        roundNumber = 0;
-    }
-
     function resetGame() {
         displayPoints();
+        console.log("Restarting game...");
         board.resetBoard();
-        resetRoundNumber();
+        roundNumber = 0;
     }
 
     function setWinner() {
@@ -109,6 +106,10 @@ function GameController() {
         return currentValue === activePlayer.marker;
     }
 
+    function allEqual(arr) {
+        return arr.every(isActivePlayerMarker);
+    }
+
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
         console.log(`Placing '${activePlayer.marker}' onto [${row}][${column}]`);
@@ -116,24 +117,22 @@ function GameController() {
         const boardArray = board.getBoard();
 
         for (let i = 0; i < boardArray.length; i++) {
-            if (boardArray[i].every(isActivePlayerMarker)) {
+            if (allEqual(boardArray[i])) {
                 setWinner();
+                break;
             } 
-        }
-
-        for (let i = 0; i < boardArray.length; i++) {
             const tempArr = [];
             for (let j = 0; j < boardArray.length; j++) {
                 tempArr.push(boardArray[j][i]);
             }
-            if (tempArr.every(isActivePlayerMarker)) {
+            if (allEqual(tempArr)) {
                 setWinner();
             }
         }
 
         const tempArr = [];
         tempArr.push(boardArray[0][0], boardArray[1][1], boardArray[2][2]);
-        if (tempArr.every(isActivePlayerMarker)) {
+        if (allEqual(tempArr)) {
             setWinner();
         }
 
