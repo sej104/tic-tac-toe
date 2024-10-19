@@ -12,6 +12,11 @@ function GameBoard() {
         }
     }
 
+    function printBoard() {
+        const boardWithValues = board.map((row) => row.map((value) => value));
+        console.log(boardWithValues);
+    }
+
     function getBoard() {
         return board;
     }
@@ -31,7 +36,7 @@ function GameBoard() {
 
     resetBoard();
 
-    return {resetBoard, getBoard, placeMarker};
+    return {resetBoard, printBoard, getBoard, placeMarker};
 }
 
 function Player(
@@ -69,7 +74,7 @@ function GameController() {
     }
 
     function printNewRound() {
-        console.log(board.getBoard());
+        board.printBoard();
         console.log(`${activePlayer.name}'s turn!`);
     }
 
@@ -118,6 +123,7 @@ function GameController() {
 
         for (let i = 0; i < boardArray.length; i++) {
             if (allEqual(boardArray[i])) {
+                board.printBoard();
                 setWinner();
                 break;
             } else if (
@@ -125,6 +131,7 @@ function GameController() {
                 boardArray[1][i] === activePlayer.marker &&
                 boardArray[2][i] === activePlayer.marker
             ) {
+                board.printBoard();
                 setWinner();
                 break;
             }
