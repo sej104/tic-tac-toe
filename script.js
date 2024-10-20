@@ -98,14 +98,16 @@ function GameController() {
     function setWinner() {
         console.log(`${activePlayer.name} wins!`);
         activePlayer.points += 1;
+        roundNumber = 1; // REMOVE. SHOULD BE IN RESET GAME
     }
 
     function setTie() {
         console.log('Tie game!');
         ties += 1;
+        roundNumber = 1; // REMOVE. SHOULD BE IN RESET GAME
     }
 
-    function checkWinner(item1, item2, item3) {
+    function allEqual(item1, item2, item3) {
         if (
             item1 === activePlayer.marker &&
             item2 === activePlayer.marker &&
@@ -113,28 +115,46 @@ function GameController() {
         ) return true;
     }
 
+    function checkWinner() {
+        const boardArray = board.getBoard();
+        for (let i = 0; i < boardArray.length; i++) {
+            if (
+                allEqual(boardArray[i][0], boardArray[i][1], boardArray[i][2]) ||
+                allEqual(boardArray[0][i], boardArray[1][i], boardArray[2][i]) ||
+                allEqual(boardArray[0][0], boardArray[1][1], boardArray[2][2]) ||
+                allEqual(boardArray[0][2], boardArray[1][1], boardArray[2][0])
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function checkTie() {
+        const boardArray = board.getBoard();
+        for(let i = 0; i < boardArray.length; i++) {
+            for(let j = 0; j < boardArray.length; j++) {
+                if (boardArray[i][j] === null) return false;
+            }
+        }
+        return true;
+    }
+
     function playRound(row, column) {
         board.placeMarker(row, column, activePlayer.marker);
         console.log(`Placing '${activePlayer.marker}' onto [${row}][${column}]`);
 
-        const boardArray = board.getBoard();
-
-        for (let i = 0; i < boardArray.length; i++) {
-            if (
-                checkWinner(boardArray[i][0], boardArray[i][1], boardArray[i][2]) ||
-                checkWinner(boardArray[0][i], boardArray[1][i], boardArray[2][i]) ||
-                checkWinner(boardArray[0][0], boardArray[1][1], boardArray[2][2]) ||
-                checkWinner(boardArray[0][2], boardArray[1][1], boardArray[2][0])
-            ) {
-                board.printBoard();
-                setWinner();
-                break;
-            }
+        if (checkWinner()) {
+            board.printBoard();
+            setWinner();
+            return;
         }
 
         roundNumber += 1;
-        if (roundNumber > 9) {
+        if (checkTie()) {
+            board.printBoard();
             setTie();
+            return;
         }
 
         switchTurn();
@@ -151,7 +171,9 @@ function GameController() {
         playRound, 
         getBoard: board.getBoard, 
         getActivePlayer, 
-        resetGame
+        resetGame,
+        checkWinner,
+        checkTie
     };
 }
 
@@ -188,6 +210,19 @@ function ScreenController() {
         if (!selectedRow || !selectedColumn || currentValue) return;
 
         game.playRound(selectedRow, selectedColumn);
+
+        if (game.checkWinner()) {
+            updateScreen();
+            turnDiv.textContent = `${game.getActivePlayer().name} wins!`;
+            return;
+        }
+
+        if (game.checkTie()) {
+            updateScreen();
+            turnDiv.textContent = `It's a tie!`;
+            return;
+        }
+
         updateScreen();
     });
 
