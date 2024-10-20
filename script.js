@@ -160,5 +160,3 @@ const screenController = (function() {
 
     updateScreen();
 })();
-
-screenController();
