@@ -181,7 +181,7 @@ function ScreenController() {
     const game = GameController();
     const boardDiv = document.querySelector('.board');
     const turnDiv = document.querySelector('.turn');
-    const restartButton = document.querySelector('.restart-button');
+    const restartButton = document.querySelector('.restart');
 
     function updateScreen() {
         const board = game.getBoard();
@@ -214,6 +214,7 @@ function ScreenController() {
         if (game.checkWinner()) {
             updateScreen();
             turnDiv.textContent = `${game.getActivePlayer().name} wins!`;
+            boardDiv.classList.add('disable');
             return;
         }
 
@@ -228,6 +229,7 @@ function ScreenController() {
 
     restartButton.addEventListener('click', () => {
         game.resetGame();
+        boardDiv.classList.remove('disable');
         updateScreen();
     });
 

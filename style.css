@@ -91,12 +91,15 @@ h1 {
     background-color: var(--cell-hover-color);
 }
 
-.restart-button {
+.restart {
     color: black;
-    /* background-color: #162d30; */
     background-color: #f0cd3f;
     padding: 12px;
     margin-top: 50px;
     letter-spacing: 0.7px;
     border-radius: 50px;
+}
+
+.disable {
+    pointer-events: none;
 }
