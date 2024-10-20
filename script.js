@@ -45,13 +45,13 @@ function Player(
     ) {
     const playerOne = {
         name: playerOneName,
-        marker: 'x',
+        marker: 'X',
         points: 0
     };
 
     const playerTwo = {
         name: playerTwoName,
-        marker: 'o',
+        marker: 'O',
         points: 0
     };
 
