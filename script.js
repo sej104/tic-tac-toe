@@ -98,13 +98,11 @@ function GameController() {
     function setWinner() {
         console.log(`${activePlayer.name} wins!`);
         activePlayer.points += 1;
-        resetGame();
     }
 
     function setTie() {
         console.log('Tie game!');
         ties += 1;
-        resetGame();
     }
 
     function checkWinner(item1, item2, item3) {
@@ -149,13 +147,19 @@ function GameController() {
 
     printNewRound();
 
-    return {playRound, getBoard: board.getBoard, getActivePlayer};
+    return {
+        playRound, 
+        getBoard: board.getBoard, 
+        getActivePlayer, 
+        resetGame
+    };
 }
 
 function ScreenController() {
     const game = GameController();
     const boardDiv = document.querySelector('.board');
     const turnDiv = document.querySelector('.turn');
+    const restartButton = document.querySelector('.restart-button');
 
     function updateScreen() {
         const board = game.getBoard();
@@ -184,6 +188,11 @@ function ScreenController() {
         if (!selectedRow || !selectedColumn || currentValue) return;
 
         game.playRound(selectedRow, selectedColumn);
+        updateScreen();
+    });
+
+    restartButton.addEventListener('click', () => {
+        game.resetGame();
         updateScreen();
     });
 
